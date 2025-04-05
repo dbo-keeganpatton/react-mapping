@@ -1,15 +1,32 @@
 'use client'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export default function BigQueryComponent() {
+export default function BigQueryComponent({ queryParams, trigger}) {
 
     const [data, setData] = useState([]);
+    
+    useEffect(() => {
+        if (trigger) {
+            fetchStoreCoordinates();
+        }
+    }, [trigger, queryParams]);
+    
 
     // Go Get the Data
     async function fetchStoreCoordinates() {
-        const response = await fetch('/api/getStoreCoordinates');
+        const response = await fetch('/api/getStoreCoordinates', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                upc: queryParams.upc || undefined,
+                epc: queryParams.epc || undefined,
+            }),
+        });
+
         const result = await response.json();
-        setData(result.data);
+        setData(result.data || []);
     };
 
     // Return Column Headers from Query Result Set 

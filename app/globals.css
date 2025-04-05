@@ -29,9 +29,7 @@ table {
     width: 100%;
 }
 
-input[type="text"], textarea {
-    background-color: white;
-}
+
 * {
   box-sizing: border-box;
   padding: 0;
