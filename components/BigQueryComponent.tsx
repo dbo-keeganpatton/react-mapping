@@ -24,7 +24,6 @@ export default function BigQueryComponent() {
         <button onClick={fetchStoreCoordinates}>Fetch Data</button>
         
         <div>
-            <h3>EPC Data</h3>
             
             <table>
                 <thead>
