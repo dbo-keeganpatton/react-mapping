@@ -77,9 +77,10 @@ export default function MapQueryComponent({ queryParams, trigger }: MapQueryComp
         
        <div
         style={{
-            width: '1000px',
-            height: '1000px',
-            backgroundImage: 'url("/map.png")',
+            width: '45vw',
+            height: '800px',
+            margin: '10px',
+            backgroundImage: 'url("/dummy_store.png")',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
         }}

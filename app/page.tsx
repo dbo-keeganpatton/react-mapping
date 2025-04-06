@@ -29,7 +29,7 @@ export default function Home() {
     <div>
       {/* Main Banner */}
       <div className={styles.topBanner}>
-        <h1 className={styles.topBannerTitle}>Store 359 EPC Finder</h1>
+        <h1 className={styles.topBannerTitle}> SuperMegaStore Item Location Tracker</h1>
       </div>
 
       <div className={styles.mainCanvasOuterContainer}>
