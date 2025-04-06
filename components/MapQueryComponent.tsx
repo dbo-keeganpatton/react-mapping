@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react';
+import { useState,  useEffect } from 'react';
 import React, { PureComponent } from 'react';
 import {
   ScatterChart,
@@ -14,21 +14,68 @@ import {
 } from 'recharts';
 
 
-export default function MapQueryComponent() {
 
-    const [data, setData] = useState([]);
+interface QueryParams {
+  epc: string;
+}
+
+interface MapQueryComponentProps {
+  queryParams: QueryParams;
+  trigger: boolean;
+}
+
+
+
+
+
+export default function MapQueryComponent({ queryParams, trigger }: MapQueryComponentProps) {
+    
+    const [data, setData] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (trigger) {
+            fetchStoreCoordinates();
+        }
+    }, [trigger, queryParams]);
+
 
     // Go Get the Data
     async function fetchStoreCoordinates() {
-        const response = await fetch('/api/getStoreCoordinates');
-        const result = await response.json();
-        setData(result.data);
-    };
+        setIsLoading(true);
+        setError(null);
+        try {
+            // Create a clean request body without undefined values
+            const requestBody = { epc: '' };
+            if (queryParams.epc) requestBody.epc = queryParams.epc;
+            
+            const response = await fetch('/api/getStoreCoordinates', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Server responded with status: ${response.status}`);
+            }
+            
+            const result = await response.json();
+            setData(result.data || []);
+        } catch (err) {
+            console.error("Error fetching data:", err);
+            setError(err instanceof Error ? err.message : 'An unknown error occurred');
+            setData([]);
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
 
     return (
        <div>
-       <button onClick={fetchStoreCoordinates}>Fetch Data</button>
         
        <div
         style={{

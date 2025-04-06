@@ -8,7 +8,6 @@ import styles from "./page.module.css";
 
 export default function Home() {
   const [queryParams, setQueryParams] = useState({
-    upc: '',
     epc: '',
   });
 
@@ -19,9 +18,6 @@ export default function Home() {
     const formData = new FormData(e.currentTarget);
     
     const params = {
-      startDate: formData.get("Start Date") as string,
-      endDate: formData.get("End Date") as string,
-      upc: formData.get("UPC") as string,
       epc: formData.get("EPC") as string,
     };
 
@@ -51,7 +47,7 @@ export default function Home() {
         {/* Viz Components */}
         <div className={styles.mainCanvasInnerRightVizContainer}>
           <div className={styles.mainCanvasInnerRightVizContainerItem}>
-            <MapQueryComponent />
+            <MapQueryComponent trigger={triggerQuery} queryParams={queryParams}/>
           </div>
           <div className={styles.mainCanvasInnerRightVizContainerItem}>
             <BigQueryComponent trigger={triggerQuery} queryParams={queryParams} />
