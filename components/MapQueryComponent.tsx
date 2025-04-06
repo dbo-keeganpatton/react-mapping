@@ -1,6 +1,6 @@
 'use client'
 import { useState,  useEffect } from 'react';
-import React, { PureComponent } from 'react';
+import React from 'react';
 import {
   ScatterChart,
   Scatter,
@@ -26,8 +26,6 @@ interface MapQueryComponentProps {
 
 
 
-
-
 export default function MapQueryComponent({ queryParams, trigger }: MapQueryComponentProps) {
     
     const [data, setData] = useState<any[]>([]);
@@ -41,12 +39,12 @@ export default function MapQueryComponent({ queryParams, trigger }: MapQueryComp
     }, [trigger, queryParams]);
 
 
-    // Go Get the Data
     async function fetchStoreCoordinates() {
         setIsLoading(true);
         setError(null);
+
         try {
-            // Create a clean request body without undefined values
+
             const requestBody = { epc: '' };
             if (queryParams.epc) requestBody.epc = queryParams.epc;
             
@@ -79,31 +77,24 @@ export default function MapQueryComponent({ queryParams, trigger }: MapQueryComp
         
        <div
         style={{
-            width: '50%',
-            height: '50%',
+            width: '1000px',
+            height: '1000px',
             backgroundImage: 'url("/map.png")',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
         }}
         >
 
-        <ResponsiveContainer width="100%" height={400}>
-        <ScatterChart
-          margin={{
-            top: 20,
-            right: 20,
-            bottom: 20,
-            left: 20,
-          }}
-        >
+        <ResponsiveContainer height="100%" width="100%">
+        <ScatterChart style={{ margin: '0px, 0px, 0px, 0px', width: '100%', height: '100%' }}>
 
         <CartesianGrid />
-          <XAxis type="number" dataKey="x_value" name="x" />
-          <YAxis type="number" dataKey="y_value" name="y" />
+          <XAxis type="number" dataKey="x_value" name="x" hide/>
+          <YAxis type="number" dataKey="y_value" name="y" hide/>
           <ZAxis type="number" range={[100]} />
-          <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+          <Tooltip />
           <Legend />
-          <Scatter name="Store Test" data={data} fill="#FF0000" line shape="cross" />
+          <Scatter data={data} fill="#FF0000" line shape="cross" />
 
 
         </ScatterChart>
